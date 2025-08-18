@@ -128,27 +128,41 @@ document.addEventListener('DOMContentLoaded', () => {
             const session = new onnx.InferenceSession({ backendHint: 'webgl' });
             await session.load(`./onnx_models/${make}_model.json`);
 
-            const featureCount = carData[make].feature_count;
+            const features = featureMapping[make];
+            if (!features) {
+                throw new Error(`Feature mapping for ${make} not found.`);
+            }
+
+            const featureCount = features.length;
             const inputArray = new Float32Array(featureCount).fill(0);
 
-            // This is a simplified representation of feature engineering.
-            // The actual indices depend on the training script.
-            // We are making educated guesses here.
-            inputArray[0] = 2025 - year; // age
-            inputArray[1] = mileage;
+            inputArray[features.indexOf('age')] = 2025 - year;
+            inputArray[features.indexOf('mileage')] = mileage;
 
             // One-hot encode categorical features
-            const regionIndex = regions.indexOf(region) + 11; 
-            if(regionIndex < featureCount) inputArray[regionIndex] = 1;
+            const regionFeature = `location_region_${region}`;
+            const regionIndex = features.indexOf(regionFeature);
+            if (regionIndex > -1) {
+                inputArray[regionIndex] = 1;
+            }
 
-            const fuelIndex = fuels.indexOf(fuel) + 34;
-            if(fuelIndex < featureCount) inputArray[fuelIndex] = 1;
+            const fuelFeature = `fuel_${fuel}`;
+            const fuelIndex = features.indexOf(fuelFeature);
+            if (fuelIndex > -1) {
+                inputArray[fuelIndex] = 1;
+            }
 
-            const gearboxIndex = gearboxes.indexOf(gearbox) + 38;
-            if(gearboxIndex < featureCount) inputArray[gearboxIndex] = 1;
+            const gearboxFeature = `gearbox_${gearbox}`;
+            const gearboxIndex = features.indexOf(gearboxFeature);
+            if (gearboxIndex > -1) {
+                inputArray[gearboxIndex] = 1;
+            }
 
-            const modelIndex = carData[make].models.indexOf(model) + 40;
-            if(modelIndex < featureCount) inputArray[modelIndex] = 1;
+            const modelFeature = `model_${model}`;
+            const modelIndex = features.indexOf(modelFeature);
+            if (modelIndex > -1) {
+                inputArray[modelIndex] = 1;
+            }
 
             const tensor = new onnx.Tensor(inputArray, 'float32', [1, featureCount]);
             const outputMap = await session.run([tensor]);
