@@ -1,58 +1,184 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoPredict - Car Price Estimator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>AutoPredict - Car Price Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>AutoPredict</h1>
-            <p>Get an instant price prediction for your car</p>
+            <h1><i class="fas fa-car"></i> AutoPredict</h1>
+            <p>Predict the price of your car with confidence</p>
         </header>
         <main>
             <div class="form-container">
-                <div class="form-group">
-                    <label for="make">Make</label>
-                    <select id="make"></select>
+                <div class="input-group">
+                    <label for="make"><i class="fas fa-car-side"></i> Make</label>
+                    <select id="make">
+                        <option value="">Select Make</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="model">Model</label>
-                    <select id="model"></select>
+                <div class="input-group">
+                    <label for="model"><i class="fas fa-road"></i> Model</label>
+                    <select id="model">
+                        <option value="">Select Model</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="region">Region</label>
-                    <select id="region"></select>
+                <div class="input-group">
+                    <label for="year"><i class="fas fa-calendar-alt"></i> Year</label>
+                    <input type="number" id="year" placeholder="Enter Year" min="1900" max="2025">
                 </div>
-                <div class="form-group">
-                    <label for="year">Year</label>
-                    <input type="number" id="year" placeholder="e.g., 2018">
+                <div class="input-group">
+                    <label for="mileage"><i class="fas fa-tachometer-alt"></i> Mileage (km)</label>
+                    <div class="mileage-input">
+                        <input type="text" id="mileage" placeholder="Enter Mileage" inputmode="numeric" pattern="[0-9 ]*">
+                        <div class="mileage-buttons">
+                            <button id="mileage-up"><i class="fas fa-chevron-up"></i></button>
+                            <button id="mileage-down"><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="mileage">Mileage (km)</label>
-                    <input type="number" id="mileage" placeholder="e.g., 50000">
+                <div class="input-group">
+                    <label for="fuel"><i class="fas fa-gas-pump"></i> Fuel</label>
+                    <select id="fuel">
+                        <option value="Bensin">Bensin</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="El">El</option>
+                        <option value="Miljöbränsle/Hybrid">Miljöbränsle/Hybrid</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="fuel">Fuel Type</label>
-                    <select id="fuel"></select>
+                <div class="input-group">
+                    <label for="gearbox"><i class="fas fa-cogs"></i> Gearbox</label>
+                    <select id="gearbox">
+                        <option value="Automat">Automat</option>
+                        <option value="Manuell">Manuell</option>
+                    </select>
                 </div>
-                <div class="form-group">
-                    <label for="gearbox">Gearbox</label>
-                    <select id="gearbox"></select>
+                <div class="input-group">
+                    <label for="seller-type"><i class="fas fa-store"></i> Seller Type</label>
+                    <select id="seller-type">
+                        <option value="Företag">Company</option>
+                        <option value="Privat">Private</option>
+                    </select>
                 </div>
-                <button id="predict-btn">Predict Price</button>
+                <div class="input-group">
+                    <label for="location"><i class="fas fa-map-marker-alt"></i> Location</label>
+                    <select id="location">
+                        <option value="Stockholm">Stockholm</option>
+                        <option value="Göteborg">Göteborg</option>
+                        <option value="Skåne">Skåne</option>
+                        <option value="Östergötland">Östergötland</option>
+                        <option value="Uppsala">Uppsala</option>
+                        <option value="Jönköping">Jönköping</option>
+                        <option value="Halland">Halland</option>
+                        <option value="Västmanland">Västmanland</option>
+                        <option value="Södermanland">Södermanland</option>
+                        <option value="Dalarna">Dalarna</option>
+                        <option value="Gävleborg">Gävleborg</option>
+                        <option value="Värmland">Värmland</option>
+                        <option value="Norrbotten">Norrbotten</option>
+                        <option value="Västerbotten">Västerbotten</option>
+                        <option value="Kalmar">Kalmar</option>
+                        <option value="Kronoberg">Kronoberg</option>
+                        <option value="Blekinge">Blekinge</option>
+                        <option value="Jämtland">Jämtland</option>
+                        <option value="Västernorrland">Västernorrland</option>
+                        <option value="Gotland">Gotland</option>
+                        <option value="Skaraborg">Skaraborg</option>
+                        <option value="Älvsborg">Älvsborg</option>
+                        <option value="Örebro">Örebro</option>
+                    </select>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="has_service_book"> Service Book</label>
+                    <label><input type="checkbox" id="is_newly_serviced"> Newly Serviced</label>
+                    <label><input type="checkbox" id="has_timing_belt_replaced"> Timing Belt Replaced</label>
+                    <label><input type="checkbox" id="has_brakes_replaced"> Brakes Replaced</label>
+                    <label><input type="checkbox" id="has_authorized_service"> Authorized Service</label>
+                    <label><input type="checkbox" id="winter_tires_included"> Winter Tires Included</label>
+                </div>
+                <button id="predict-btn"><i class="fas fa-magic"></i> Predict Price</button>
             </div>
             <div class="prediction-container">
-                <h2>Prediction</h2>
-                <p id="prediction-result">Fill out the form to get a price prediction.</p>
+                <h2><i class="fas fa-tag"></i> Predicted Price</h2>
+                <div class="price-result">
+                    <span id="price"></span>
+                    <span id="uncertainty"></span>
+                </div>
+                <div class="animation-container">
+                    <div class="car-animation"></div>
+                </div>
             </div>
         </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
-    <script src="feature_mapping.js"></script>
+
+    <section class="info-section hidden">
+        <h2><i class="fas fa-info-circle"></i> About The Prediction Model</h2>
+        <div class="info-content">
+            <div class="info-card">
+                <h3><i class="fas fa-database"></i> Data Source</h3>
+                <p>The prediction model was trained on car listings from <strong>Blocket.se</strong>. The data was scraped once in August 2025, capturing active listings dating back to the beginning of 2025. Data classification and feature engineering were performed by the <strong>Google Gemini 2.5 LLM</strong>.</p>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-brain"></i> Machine Learning Model</h3>
+                <p>A <strong>Gradient Boosting Regressor</strong> model was used to predict car prices. This is a powerful ensemble technique that builds multiple decision trees sequentially to correct errors and improve accuracy.</p>
+            </div>
+            <div class="info-card">
+                <h3><i class="fas fa-exclamation-triangle"></i> Cautions</h3>
+                <ul>
+                    <li><i class="fas fa-dollar-sign"></i> The predicted price reflects a high estimate, as it is based on the asking prices of listings that had not yet been sold.</li>
+                    <li><i class="fas fa-search"></i> The physical condition of the vehicles has not been independently evaluated or verified.</li>
+                    <li><i class="fas fa-chart-line"></i> This is a predictive model, not a formal valuation. Market conditions can change rapidly.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="table-container">
+            <h3><i class="fas fa-car-alt"></i> Listings Per Make</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Make</th>
+                        <th>Listings Used</th>
+                        <th>R² Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Volvo</td><td>14,576</td><td>0.939</td></tr>
+                    <tr><td>Volkswagen</td><td>13,566</td><td>0.859</td></tr>
+                    <tr><td>BMW</td><td>8,651</td><td>0.917</td></tr>
+                    <tr><td>Kia</td><td>6,513</td><td>0.895</td></tr>
+                    <tr><td>Mercedes-Benz</td><td>6,124</td><td>0.887</td></tr>
+                    <tr><td>Audi</td><td>5,946</td><td>0.860</td></tr>
+                    <tr><td>Ford</td><td>5,664</td><td>0.921</td></tr>
+                    <tr><td>Toyota</td><td>4,599</td><td>0.926</td></tr>
+                    <tr><td>Peugeot</td><td>4,393</td><td>0.814</td></tr>
+                    <tr><td>Renault</td><td>4,006</td><td>0.909</td></tr>
+                    <tr><td>Opel</td><td>2,047</td><td>0.861</td></tr>
+                    <tr><td>Citroen</td><td>2,028</td><td>0.848</td></tr>
+                    <tr><td>Mazda</td><td>1,469</td><td>0.834</td></tr>
+                    <tr><td>Subaru</td><td>1,193</td><td>0.912</td></tr>
+                    <tr><td>Chevrolet</td><td>754</td><td>0.845</td></tr>
+                    <tr><td>Fiat</td><td>612</td><td>0.868</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="contact-section hidden">
+        <h2><i class="fas fa-user"></i> Created By</h2>
+        <div class="contact-info">
+            <p><i class="fas fa-user-circle"></i> Teodor Siebke</p>
+            <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/teodor-siebke/" target="_blank">linkedin.com/in/teodor-siebke</a></p>
+            <p><i class="fas fa-envelope"></i> <a href="mailto:teodor.siebke@gmail.com">teodor.siebke@gmail.com</a></p>
+            <p><i class="fas fa-code"></i> Interested in an API for this model, or a more up-to-date version? Contact me.</p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
