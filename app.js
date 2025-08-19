@@ -2,8 +2,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
     let featureMap = {};
 
+    const basePath = window.location.hostname.includes('github.io') ? '/AutoPredict/' : '/';
+
     try {
-        const response = await fetch('onnx_models/feature_map.json');
+        const response = await fetch(`${basePath}onnx_models/feature_map.json`);
         featureMap = await response.json();
     } catch (error) {
         console.error('Failed to load feature map:', error);
@@ -131,7 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         uncertaintySpan.textContent = 'Predicting...';
 
         try {
-            const session = await ort.InferenceSession.create(`/onnx/${make}_model.onnx`);
+            const session = await ort.InferenceSession.create(`${basePath}onnx/${make}_model.onnx`);
 
             const features = featureMap[make];
             const input = new Float32Array(features.length).fill(0);
