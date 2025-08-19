@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let featureMap = {};
 
     try {
-        const response = await fetch('/onnx_models/feature_map.json');
+        const response = await fetch('onnx_models/feature_map.json');
         featureMap = await response.json();
     } catch (error) {
         console.error('Failed to load feature map:', error);
